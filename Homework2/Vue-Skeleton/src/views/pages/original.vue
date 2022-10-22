@@ -1,11 +1,7 @@
 <template>
     <div>
-        <h1>Bar Chart</h1>
+        <h1>Draft</h1>
         <BarChart v-if="dataExists" :myBarchartData="myBarData" />
-        <h1> Nav Bar</h1>
-
-        <h1> Side Bar</h1>
-
     </div>
 </template>
 
@@ -13,7 +9,6 @@
 import BarChart from "../components/barchart.vue"
 import * as d3 from "d3";
 import csvPath from '../../assets/data/SF_Historical_Ballot_Measures.csv';
-import Navbar from "../components/navbar.vue";
 
 export default {
     data(){
@@ -23,9 +18,8 @@ export default {
         }
     },
     components: {
-    BarChart,
-    Navbar
-},
+        BarChart
+    },
     created(){
         /* Fetch via CSV */
         this.drawBarFromCsv()

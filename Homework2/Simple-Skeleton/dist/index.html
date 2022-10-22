@@ -1,14 +1,86 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Homework 2</title>
-  </head>
-  <body>
-    <div>
-      <h1>Homework 2 Starter</h1>
-      <p>Edit this :)</p>
-      <div id="bar"></div>
+
+<head>
+  <title>Homework 2</title>
+</head>
+
+<body  style="width: 1350px; height: 1200px">
+  <h1> Student Performance Data</h1>
+  <h3>ECS 272 Information Visualization Assignment 2<br>Jee Young Bhan</h3>
+  <p> The visualization explores <a
+      href="https://www.kaggle.com/datasets/devansodariya/student-performance-data">student performance data.</a> </p>
+
+  <!-- This is code for HTML basic layouts -->
+  <br>
+  <div class="container">
+
+    <!--Parallel Plot-->
+    <div class="item parallel">
+      <!-- SELECTION complete this part later-->
+      <p>Term-to-term Student Performance (G1, G2, and G3)
+        <br> Highlight by:
+        <button type="button" id="Urbanicity">
+          Urbanicity</button>
+        <button type="button" id="School">
+          School</button>
+        <button type="button" id="Sex">
+          Sex</button>
+      </p>
+      <!-- Script to make the options to change views-->
+
+      <!-- JS script file-->
+      <div id="parallelPlot"></div>
+      <div> <svg id="parallelLegend" height=300 width=450></svg> </div>
+
     </div>
-    <script src="./bundle.js"></script>
-  </body>
+
+    <!--Scatter Plot-->
+    <div class="item scatter">
+      <!-- SELECTION complete this part later-->
+      <p> Average Student Performance by Parents' Education <br> 0 = Less Educated (no schooling) 5 = More Educated
+        (higher education or more) </p>
+      <label for="scatterOption" id="scatterOptionLabel"> Filter by:</label>
+      <select name="scatterOption" id="scatterOption">
+        <option value="scatter-A">Select</option>
+        <option value="address-U">Urbanicity: Urban</option>
+        <option value="address-R">Urbanicity: Rural</option>
+        <option value="school-GP">School: GP</option>
+        <option value="school-MS">School: MS</option>
+        <option value="sex-M">Sex: Male</option>
+        <option value="sex-F">Sex: Female</option>
+      </select>
+
+      <div id="scatterPlot"></div>
+      <div> <svg id="scatterLegend" height=80 width=450></svg> </div>
+
+      <!-- Script to make the options to change views-->
+
+      <!-- Bring JS script files-->
+
+    </div>
+
+    <!--Pie Chart-->
+    <div class="item pie">
+      <p>Approximate Proportion of Highest Parental Education</p>
+      <button type = "button" id = "motheredu">Mother's Education</button>
+      <button type = "button" id = "fatheredu">Father's Education</button>
+     
+      <!--<button onclick="update(motheredu2)">Mother's Education</button>
+      <button onclick="update(fatheredu2)">Father's Education</button>--> 
+      </select>
+
+      <div id="pieChart"></div>
+      <div>
+        <svg id="pieLegend" height=300 width=500></svg>
+      </div>
+
+    </div>
+  </div>
+
+
+
+  <script src="./bundle.js"></script>
+</body>
+
 </html>
