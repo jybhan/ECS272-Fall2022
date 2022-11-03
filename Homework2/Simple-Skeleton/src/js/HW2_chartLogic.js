@@ -1,5 +1,4 @@
 import * as d3 from "d3";
-import { selection } from "d3";
 
 
 //----------------------------------------------------------------------------------//
@@ -11,6 +10,7 @@ export function createDashboard(){
 const margin = {top: 30, right: 10, bottom: 10, left: 0},
   width = 800 - margin.left - margin.right,
   height = 400 - margin.top - margin.bottom;
+
 
 // put the svg object to the body of the page
 const svg = d3.select("#parallelPlot")
@@ -54,9 +54,6 @@ d3.csv("https://raw.githubusercontent.com/jybhan/ECS272-Fall2022/main/Homework2/
 
   }
 
-
-
-
   // Draw the lines
   svg
     .selectAll("parallelPath")
@@ -67,25 +64,9 @@ d3.csv("https://raw.githubusercontent.com/jybhan/ECS272-Fall2022/main/Homework2/
     .style("stroke", "#969696")
     .style("opacity", 0.5)
 
-
-
-    d3.select("#Clear").on("click", function(e){
-        svg.selectAll("*").remove();
-        svg
-          .selectAll("parallelPath")
-          .data(data)
-          .join("path")
-          .attr("d",  pcoordPath)
-          .style("fill", "none")
-          .style("stroke", "#969696")
-          .style("opacity", 0.5)
-    })
-
-
     d3.select("#Urbanicity").on("click", function(e){
         /* FUNCTION LOGIC ON WHAT YOU DO HERE*/
-        svg.selectAll("*").remove();  
-        svg
+          svg
             .selectAll("parallelPath")
             .data(data)
             .join("path")
@@ -97,7 +78,6 @@ d3.csv("https://raw.githubusercontent.com/jybhan/ECS272-Fall2022/main/Homework2/
     
     d3.select("#School").on("click", function(e){
         /* FUNCTION LOGIC ON WHAT YOU DO HERE*/
-        svg.selectAll("*").remove(); 
         svg
             .selectAll("parallelPath")
             .data(data)
@@ -110,7 +90,6 @@ d3.csv("https://raw.githubusercontent.com/jybhan/ECS272-Fall2022/main/Homework2/
     
     d3.select("#Sex").on("click", function(e){
         /* FUNCTION LOGIC ON WHAT YOU DO HERE*/
-        svg.selectAll("*").remove();
         svg
             .selectAll("parallelPath")
             .data(data)
@@ -122,31 +101,29 @@ d3.csv("https://raw.githubusercontent.com/jybhan/ECS272-Fall2022/main/Homework2/
     })
 
   // Draw the axis:
-  
-// Draw the axis:
-svg.selectAll("myAxis")
-// For each dimension of the dataset I add a 'g' element:
-.data(dimensions).enter()
-.append("g")
-// I translate this element to its right position on the x axis
-.attr("transform", function(d) { return "translate(" + x(d) + ")"; })
-// And I build the axis with the call function
-.each(function(d) { d3.select(this).call(d3.axisLeft().scale(y[d])); })
-// Add axis title
-.append("text")
-  .style("text-anchor", "middle")
-  .attr("y", -9)
-  .text(function(d) { return d; })
-  .style("fill", "black")
+  svg.selectAll("myAxis")
+    // For each dimension of the dataset I add a 'g' element:
+    .data(dimensions).enter()
+    .append("g")
+    // I translate this element to its right position on the x axis
+    .attr("transform", function(d) { return "translate(" + x(d) + ")"; })
+    // And I build the axis with the call function
+    .each(function(d) { d3.select(this).call(d3.axisLeft().scale(y[d])); })
+    // Add axis title
+    .append("text")
+      .style("text-anchor", "middle")
+      .attr("y", -9)
+      .text(function(d) { return d; })
+      .style("fill", "black")
+ 
 
-
-  //Add axis labels
-  svg.append("text")
-    .attr("text-anchor", "end")
-    .attr("transform", "rotate(-90)")
-    .attr("y", -margin.left+170)
-    .attr("x", -margin.top)
-    .text("Academic Performance (0-20)")
+      //Add axis labels
+      svg.append("text")
+        .attr("text-anchor", "end")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -margin.left+170)
+        .attr("x", -margin.top)
+        .text("Academic Performance (0-20)")
 })
 
 // Adding legend
@@ -180,42 +157,7 @@ svg.selectAll("myAxis")
           .attr("text-anchor", "left")
           .style("alignment-baseline", "middle")
 
-// Zoom 
 
-function handleZoom(e) {
-  d3.select('svg g')
-    .attr('transform', e.transform);
-}
-
-let zoom = d3.zoom()
-  .on('zoom', handleZoom);
-
-d3.select('svg')
-    .call(zoom);
-
-function updateData() {
-      data = [];
-      for(let i=0; i<numPoints; i++) {
-        data.push({
-          id: i,
-          x: Math.random() * width,
-          y: Math.random() * height
-        });
-      }
-    }
-    
-function update() {
-  d3.select('svg g')
-      .selectAll('circle')
-      .data(data)
-      .join('circle')
-      .attr('cx', function(d) { return d.x; })
-      .attr('cy', function(d) { return d.y; })
-      .attr('r', 3);
-    }
-    
-
-  
 
 //----------------------------------------------------------------------------------//
 // Scatter plot
@@ -331,7 +273,6 @@ function update() {
           
             // Add dots
             
-            const dot =
             svg2.append('g')
                 .selectAll("scatterDot")
                 .data(chartData)
@@ -341,49 +282,23 @@ function update() {
                 .attr("r", function (d) {return(d.average);})
                 .style("fill", "black")
                 .style("opacity", 0.2)
-          
-          
+        
          })
 
     })
 
     function filterData(key, value, data){
         return data.filter(d => d[key] == value)
-    
     }
 
 
     // For dropdown value change
         var dropdownChange = function() {
             var newScatter = d3.select(this).property('average'),
-                newData=  data[newScatter];
+                newData =  data[newScatter];
                 updateScatter(newScatter);
         };
      
-
-
-    // Brushing
-    const brush = d3.brush()
-        .on("start brush end", brushed);
-    
-        svg2.call(brush);
-
-    function brushed({selection}) {
-      let value = [];
-      if (selection) {
-        const [[x0, y0], [x1, y1]] = selection;
-        value = dot
-          .style("stroke", "gray")
-          .filter(d => x0 <= x2(d.x) && x2(d.x) < x1 && y0 <= y2(d.y) && y2(d.y) < y1)
-          .style("stroke", "red")
-          .data();
-      } else {
-        dot.style("stroke", "red");
-      }
-      svg2.property("value", value).dispatch("input");
-    }
-
-    selection
 
 //----------------------------------------------------------------------------------//
 // Pie chart
@@ -545,9 +460,3 @@ export function pieChart(data){
     /* Logic for this chart */
 
 }
-
-
-
-//----------------------------------------------------------------------------------//
-// Homework 3 Interaction Functions
-//----------------------------------------------------------------------------------//
